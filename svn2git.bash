@@ -1,10 +1,12 @@
 #!/bin/bash -x
 : ${SVN_REPOSITORY:?"SVN_REPOSITORY is required"}
 : ${PROJECT:?"PROJECT is required"}
+: ${GIT_REPOSITORY:?"GIT_REPOSITORY is required"}
 
 : ${WORKDIR:=$(mktemp -d -t svn2git."$PROJECT".XXXXX)}
 : ${AUTHORS_FILE:="$WORKDIR/authors"}
 : ${MIGRATE_DIR:="$WORKDIR/migration"}
+: ${BARE_DIR:="$WORKDIR/${PROJECT}-bare.git"}
 
 : ${AUTHORS_PATTERN:='$1 <$1>'}
 
@@ -46,9 +48,21 @@ function migrateIgnoredFiles {
 
 }
 
+function cloneBare {
+    git clone --bare "$MIGRATE_DIR" "$BARE_DIR"
+}
+
+function pushBareClone {
+    cd "$BARE_DIR"
+    git remote add gitremote "$GIT_REPOSITORY"
+    git push gitremote --all
+    git push gitremote --tags
+}
 
 createAuthorsFile
 checkoutGitSVN
 migrateTags
 migrateBranches
 migrateIgnoredFiles
+cloneBare
+pushBareClone
