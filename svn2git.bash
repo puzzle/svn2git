@@ -8,6 +8,8 @@
 
 : ${AUTHORS_PATTERN:='$1 <$1>'}
 
+: ${GIT_AUTHOR_FLAG:='--author="SVN 2 Git Migration <svn2git>"'}
+
 function createAuthorsFile {
     svn log --xml "$SVN_REPOSITORY" | grep author | perl -pe "s/.*>(.*?)<.*/\$1 = $AUTHORS_PATTERN/" | sort -u > "$AUTHORS_FILE"
 }
@@ -37,8 +39,16 @@ function migrateBranches {
     git branch -d trunk
 }
 
+function migrateIgnoredFiles {
+    cd "$MIGRATE_DIR"
+    git svn create-ignore
+    git commit $GIT_AUTHOR_FLAG -m "Migrate svn:ignore to .gitignore" .gitignore
+
+}
+
 
 createAuthorsFile
 checkoutGitSVN
 migrateTags
 migrateBranches
+migrateIgnoredFiles
