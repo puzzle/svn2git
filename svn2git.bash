@@ -28,6 +28,18 @@ Required parameters:
 
 Optional parameters:
 
+    -T <dir>
+    --trunk=<dir>
+        The trunk of the SVN repository (relative to the root)
+
+    -b <dir>
+    --branches=<dir>
+        A branches subdirectory of the SVN repository (relative to the root). Can occur multiple times.
+
+    -t <dir>
+    --tags=<dir>
+        A tags subdirectory of the SVN repository (relative to the root). Can occur multiple times.
+
     --no-metadata
         Don't keep the reference to the original SVN revision in the migrated Git repository
 
@@ -48,8 +60,10 @@ function createAuthorsFile {
 }
 
 function checkoutGitSVN {
-    #TODO sr - add flags for non-standard layouts
-    git svn clone "$SVN_REPOSITORY" $NO_METADATA_FLAG --stdlayout --prefix=svn/ --authors-file="$AUTHORS_FILE" -s "$MIGRATE_DIR"
+    LAYOUT="${TRUNK_FLAG}${BRANCHES_FLAG}${TAGS_FLAG}"
+    : ${LAYOUT:="--stdlayout"}
+
+    git svn clone "$SVN_REPOSITORY" $NO_METADATA_FLAG $LAYOUT --prefix=svn/ --authors-file="$AUTHORS_FILE" -s "$MIGRATE_DIR"
 }
 
 function migrateTags {
@@ -89,7 +103,7 @@ function pushBareClone {
     git push gitremote --tags
 }
 
-params="$(getopt -o p:sghv -l project:,svn,git,help,verbose,no-metadata --name "$(basename -- "$0")" -- "$@")"
+params="$(getopt -o p:sghvtbT -l project:,svn,git,help,verbose,trunk,branches,tags,no-metadata --name "$(basename -- "$0")" -- "$@")"
 if [ $? -ne 0 ]
 then
     usage
@@ -125,6 +139,18 @@ do
 	  NO_METADATA_FLAG="--no-metadata"
           shift
           ;;
+        -T|--trunk)
+          TRUNK_FLAG="-T $2"
+          shift 2
+          ;;
+        -b|--branches)
+          BRANCHES_FLAG+=" -b $2"
+          shift 2
+          ;;
+        -t|--tags)
+          TAGS_FLAG+=" -t $2"
+          shift 2
+          ;;
         --)
           shift
           break
@@ -150,6 +176,9 @@ if [ "$VERBOSE" == "VERBOSE" ] ; then set -x ; fi
 : ${AUTHORS_PATTERN:='$1 <$1>'}
 : ${NO_METADATA_FLAG:=""}
 
+: ${TRUNK_FLAG:=""}
+: ${BRANCHES_FLAG:=""}
+: ${TAGS_FLAG:=""}
 
 createAuthorsFile
 checkoutGitSVN
