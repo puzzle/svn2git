@@ -18,5 +18,27 @@ function checkoutGitSVN {
     git svn clone "$SVN_REPOSITORY" --stdlayout --prefix=svn/ --authors-file="$AUTHORS_FILE" -s "$MIGRATE_DIR"
 }
 
+function migrateTags {
+    cd "$MIGRATE_DIR"
+    git for-each-ref refs/remotes/svn/tags | cut -d / -f 5- |
+    while read ref
+    do
+        git tag -a "$ref" -m "Convert $ref from SVN to Git" "refs/remotes/svn/tags/$ref"
+    done
+}
+
+function migrateBranches {
+    cd "$MIGRATE_DIR"
+    git for-each-ref refs/remotes/svn/ | grep -v svn/tags/ | cut -d / -f 4- |
+    while read ref
+    do
+        git branch "$ref" "refs/remotes/svn/$ref"
+    done
+    git branch -d trunk
+}
+
+
 createAuthorsFile
 checkoutGitSVN
+migrateTags
+migrateBranches
