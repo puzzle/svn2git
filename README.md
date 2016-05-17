@@ -13,7 +13,7 @@ Usage: svn2git.bash `<parameters>`
 | Short | Long | Description | Required / Optional |
 |---|---|---|---|
 | `-p <projectname>` | `--project=<projectname>` | Sets the name of the project to migrate. | Required unless `PROJECT` env variable is set. |
-| `-s <svn repository>` | `--svn=<svn repository>` | Sets the Subversion Repository URL. *Important is that this points to the ***root*** of the Subversion repository, so trunk, tags and branches are accessible* | Required unless `SVN_REPOSITORY` env variable is set. |
+| `-s <svn repository>` | `--svn=<svn repository>` | Sets the Subversion Repository URL. *Important is that this points to the* ***root*** *of the Subversion repository, so trunk, tags and branches are accessible* | Required unless `SVN_REPOSITORY` env variable is set. |
 | `-g <git repository>` | `--git=<git repository>` | Sets the Git Repository URL. This repository should *exist and be empty*. | Required unless `GIT_REPOSITORY` env variable is set. |
 | | `--no-metadata` | Don't keep the reference to the original SVN revision in the migrated Git repository | Optional |
 | `-T <dir>` | `--trunk=<dir>` | The trunk of the SVN repository (relative to the root). *Should only be used for a non-standard Subversion layout* | Optional |
