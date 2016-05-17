@@ -2,6 +2,12 @@
 
 #########################################################################
 #                                                                       #
+# SVN2Git - a script to ease migration from Subversion to Git           #
+#                                                                       #
+# Copyright 2016 Stefan Rotman - Puzzle ITC GmbH <rotman@puzzle.ch>     #
+#                                                                       #
+#########################################################################
+#                                                                       #
 # This program is free software: you can redistribute it and/or modify  #
 # it under the terms of the GNU General Public License as published by  #
 # the Free Software Foundation, either version 3 of the License, or     #
@@ -15,15 +21,11 @@
 # You should have received a copy of the GNU General Public License     #
 # along with this program.  If not, see <http://www.gnu.org/licenses/>. #
 #                                                                       #
-#                                                                       #
-#   Copyright 2016 Puzzle ITC / Stefan Rotman <rotman@puzzle.ch>        #
-#                                                                       #
 #########################################################################
 
-########################
-# function definitions #
-########################
-
+#---------------------
+# function definitions 
+#---------------------
 function usage {
     PROGRAM=$(basename $0)
     cat << EOF
@@ -134,9 +136,9 @@ function cleanup {
     rm -rf "$WORKDIR"
 }
 
-########################
-# parameter processing #
-########################
+#---------------------
+# parameter processing
+#---------------------
 
 params="$(getopt -o p:sghvtbT -l project:,svn,git,help,verbose,trunk,branches,tags,no-metadata --name "$(basename -- "$0")" -- "$@")"
 if [ $? -ne 0 ]
@@ -197,9 +199,9 @@ do
 done
 if [ "$VERBOSE" == "VERBOSE" ] ; then set -x ; fi
 
-#######################
-# variable processing #
-#######################
+#--------------------
+# variable processing
+#--------------------
 
 : ${PROJECT:?"PROJECT is required"}
 : ${SVN_REPOSITORY:?"SVN_REPOSITORY is required"}
@@ -217,10 +219,9 @@ if [ "$VERBOSE" == "VERBOSE" ] ; then set -x ; fi
 : ${BRANCHES_FLAG:=""}
 : ${TAGS_FLAG:=""}
 
-###########################
-# main routine processing #
-###########################
-
+#------------------------
+# main routine processing
+#------------------------
 createAuthorsFile
 checkoutGitSVN
 migrateTags
