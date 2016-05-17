@@ -8,57 +8,34 @@ To be able to use svn2git, the following prerequisites are assumed:
 * git (with git-svn)
 
 ## Usage
-Usage: svn2git.bash <parameters>
+Usage: svn2git.bash `<parameters>`
 
-Required parameters:
+| Short | Long | Description | Required / Optional |
+|---|---|---|---|
+| `-p <projectname>` | `--project=<projectname>` | Sets the name of the project to migrate. | Required unless `PROJECT` env variable is set. |
+| `-s <svn repository>` | `--svn=<svn repository>` | Sets the Subversion Repository URL. *Important is that this points to the ***root*** of the Subversion repository, so trunk, tags and branches are accessible* | Required unless `SVN_REPOSITORY` env variable is set. |
+| `-g <git repository>` | `--git=<git repository>` | Sets the Git Repository URL. This repository should *exist and be empty*. | Required unless `GIT_REPOSITORY` env variable is set. |
+| | `--no-metadata` | Don't keep the reference to the original SVN revision in the migrated Git repository | Optional |
+| `-T <dir>` | `--trunk=<dir>` | The trunk of the SVN repository (relative to the root). *Should only be used for a non-standard Subversion layout* | Optional |
+| `-b <dir>` | `--branches=<dir>` | A branches subdirectory of the SVN repository (relative to the root). Can occur multiple times. *Should only be used for a non-standard Subversion layout* | Optional |
+| `-t <dir>` | `--tags=<dir>` | A tags subdirectory of the SVN repository (relative to the root). Can occur multiple times. *Should only be used for a non-standard Subversion layout* | Optional |
+| `-v` | `--verbose` | Run in verbose mode | Optional |
+| `-h` | `--help` | Print this message and exit | Optional |
 
+### Examples
+Migrating **myproject** from `svn://myproject.code.svn` to `ssh://git@myproject.code.git`. The project has a standard Subversion structure, and Subversion revision information is kept during migration.
 ```
-    -p <projectname>
-    --project=<projectname>
-        Sets the name of the project to migrate.
-        This becomes optional if the 'PROJECT" environment variable has been set.
-
-    -s <svn repository>
-    --svn=<svn repository>
-        Sets the Subversion Repository URL. Important is that this points to the root of the Subversion
-        repository, so trunk, tags and branches are accessible
-        This becomes optional if the 'SVN_REPOSITORY" environment variable has been set.
-
-    -g <git repository>
-    --git=<git repository>
-        Sets the Git Repository URL. This repository should exist and be empty.
-        This becomes optional if the 'GIT_REPOSITORY" environment variable has been set.
-
-    Example:
-        $ svn2git.bash -p myproject -s svn://myproject.code.svn -g ssh://git@myproject.code.git
-            Migrates 'myproject' from 'svn://myproject.code.svn' to 'ssh://git@myproject.code.git'
+$ svn2git.bash -p myproject -s svn://myproject.code.svn -g ssh://git@myproject.code.git
 ```
 
-Optional parameters:
-
+Migrating **myproject** from `svn://myproject.code.svn` to `ssh://git@myproject.code.git`. The project has a standard Subversion structure, and Subversion revision information is discarded during migration.
 ```
-    -T <dir>
-    --trunk=<dir>
-        The trunk of the SVN repository (relative to the root)
+$ svn2git.bash -p myproject -s svn://myproject.code.svn -g ssh://git@myproject.code.git --no-metadata
+```
 
-    -b <dir>
-    --branches=<dir>
-        A branches subdirectory of the SVN repository (relative to the root). Can occur multiple times.
-
-    -t <dir>
-    --tags=<dir>
-        A tags subdirectory of the SVN repository (relative to the root). Can occur multiple times.
-
-    --no-metadata
-        Don't keep the reference to the original SVN revision in the migrated Git repository
-
-    -v
-    --verbose
-        Run in verbose mode
-
-    -h
-    --help
-        Print this message and exit
+Migrating **myproject** from `svn://myproject.code.svn` to `ssh://git@myproject.code.git`. The project's trunk is in `code`, branches are in `old_branches` and `new_brances` and tags are in `tags`. Subversion revision information is kept during migration.
+```
+$ svn2git.bash -p myproject -s svn://myproject.code.svn -g ssh://git@myproject.code.git -T code -b old_branches -b new_branches -t tags
 ```
 
 ## Legal
