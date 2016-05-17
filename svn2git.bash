@@ -1,5 +1,9 @@
 #!/bin/bash
 
+########################
+# function definitions #
+########################
+
 function usage {
     cat << EOF
 Usage: $0 <parameters>
@@ -63,6 +67,8 @@ function checkoutGitSVN {
     LAYOUT="${TRUNK_FLAG}${BRANCHES_FLAG}${TAGS_FLAG}"
     : ${LAYOUT:="--stdlayout"}
 
+    #TODO sr: check that either stdlayout or trunk exists
+
     git svn clone "$SVN_REPOSITORY" $NO_METADATA_FLAG $LAYOUT --prefix=svn/ --authors-file="$AUTHORS_FILE" -s "$MIGRATE_DIR"
 }
 
@@ -102,6 +108,14 @@ function pushBareClone {
     git push gitremote --all
     git push gitremote --tags
 }
+
+function cleanup {
+    #TODO sr: add flags for patial cleanup
+}
+
+########################
+# parameter processing #
+########################
 
 params="$(getopt -o p:sghvtbT -l project:,svn,git,help,verbose,trunk,branches,tags,no-metadata --name "$(basename -- "$0")" -- "$@")"
 if [ $? -ne 0 ]
@@ -160,9 +174,11 @@ do
           ;;
     esac
 done
-
 if [ "$VERBOSE" == "VERBOSE" ] ; then set -x ; fi
 
+#######################
+# variable processing #
+#######################
 
 : ${PROJECT:?"PROJECT is required"}
 : ${SVN_REPOSITORY:?"SVN_REPOSITORY is required"}
@@ -180,6 +196,10 @@ if [ "$VERBOSE" == "VERBOSE" ] ; then set -x ; fi
 : ${BRANCHES_FLAG:=""}
 : ${TAGS_FLAG:=""}
 
+###########################
+# main routine processing #
+###########################
+
 createAuthorsFile
 checkoutGitSVN
 migrateTags
@@ -187,5 +207,4 @@ migrateBranches
 migrateIgnoredFiles
 cloneBare
 pushBareClone
-
-#TODO sr cleanup
+cleanup
