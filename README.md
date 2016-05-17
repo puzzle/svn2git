@@ -1,23 +1,6 @@
 # SVN-2-Git
 SVN-2-Git (svn2git) is a script to ease migration from Subversion to Git.
 
-### Licensing
-Copyright 2016 Stefan Rotman - Puzzle ITC GmbH <rotman@puzzle.ch>
-
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 ## Prerequisites
 To be able to use svn2git, the following prerequisites are assumed:
 * /bin/bash
@@ -75,3 +58,22 @@ Optional parameters:
     --help
         Print this message and exit
 ```
+
+## Legal
+### Copyright
+Copyright 2016 Stefan Rotman - Puzzle ITC GmbH <rotman@puzzle.ch>
+
+### Licensing
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
