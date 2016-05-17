@@ -25,8 +25,9 @@
 ########################
 
 function usage {
+    PROGRAM=$(basename $0)
     cat << EOF
-Usage: $0 <parameters>
+Usage: $PROGRAM <parameters>
 
 Required parameters:
 
@@ -47,7 +48,7 @@ Required parameters:
         This becomes optional if the 'GIT_REPOSITORY" environment variable has been set.
 
     Example:
-        $ $0 -p myproject -s svn://myproject.code.svn -g ssh://git@myproject.code.git
+        $ $PROGRAM -p myproject -s svn://myproject.code.svn -g ssh://git@myproject.code.git
             Migrates 'myproject' from 'svn://myproject.code.svn' to 'ssh://git@myproject.code.git'
 
 Optional parameters:
@@ -130,7 +131,7 @@ function pushBareClone {
 }
 
 function cleanup {
-    #TODO sr: add flags for patial cleanup
+    rm -rf "$WORKDIR"
 }
 
 ########################
