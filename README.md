@@ -8,11 +8,11 @@ To be able to use svn2git, the following prerequisites are assumed:
 * git (with git-svn)
 
 ## Usage
-```
 Usage: svn2git.bash <parameters>
 
 Required parameters:
 
+```
     -p <projectname>
     --project=<projectname>
         Sets the name of the project to migrate.
@@ -32,9 +32,11 @@ Required parameters:
     Example:
         $ svn2git.bash -p myproject -s svn://myproject.code.svn -g ssh://git@myproject.code.git
             Migrates 'myproject' from 'svn://myproject.code.svn' to 'ssh://git@myproject.code.git'
+```
 
 Optional parameters:
 
+```
     -T <dir>
     --trunk=<dir>
         The trunk of the SVN repository (relative to the root)
