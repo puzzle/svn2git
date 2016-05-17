@@ -2,7 +2,7 @@
 
 #########################################################################
 #                                                                       #
-# SVN2Git - a script to ease migration from Subversion to Git           #
+# SVN-2-Git - a script to ease migration from Subversion to Git         #
 #                                                                       #
 # Copyright 2016 Stefan Rotman - Puzzle ITC GmbH <rotman@puzzle.ch>     #
 #                                                                       #
@@ -45,7 +45,7 @@ Required parameters:
         This becomes optional if the 'SVN_REPOSITORY" environment variable has been set.
 
     -g <git repository>
-    --git=<sgit repository>
+    --git=<git repository>
 	Sets the Git Repository URL. This repository should exist and be empty.
         This becomes optional if the 'GIT_REPOSITORY" environment variable has been set.
 
