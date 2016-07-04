@@ -140,7 +140,7 @@ function cleanup {
 # parameter processing
 #---------------------
 
-params="$(getopt -o p:sghvtbT -l project:,svn,git,help,verbose,trunk,branches,tags,no-metadata --name "$(basename -- "$0")" -- "$@")"
+params="$(getopt -o p:s:g:hvt:b:T: -l project:,svn:,git:,help,verbose,trunk:,branches:,tags:,no-metadata --name "$(basename -- "$0")" -- "$@")"
 if [ $? -ne 0 ]
 then
     usage
