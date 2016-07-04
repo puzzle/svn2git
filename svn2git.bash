@@ -79,7 +79,6 @@ Optional parameters:
         Print this message and exit
 
 EOF
-   exit
 }
 
 function createAuthorsFile {
@@ -141,9 +140,11 @@ function cleanup {
 #---------------------
 
 params="$(getopt -o p:s:g:hvt:b:T: -l project:,svn:,git:,help,verbose,trunk:,branches:,tags:,no-metadata --name "$(basename -- "$0")" -- "$@")"
-if [ $? -ne 0 ]
+getopt_code=$?
+if [ $getopt_code -ne 0 ]
 then
     usage
+    exit $getopt_code
 fi
 
 eval set -- "$params"
@@ -166,7 +167,7 @@ do
           ;;
         -h|--help)
 	  usage
-          shift
+          exit
           ;;
         -v|--verbose)
 	  VERBOSE="VERBOSE"
@@ -194,6 +195,7 @@ do
           ;;
         *)
           usage
+          exit 1
           ;;
     esac
 done
