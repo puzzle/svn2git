@@ -83,6 +83,8 @@ EOF
 
 function createAuthorsFile {
     svn log --xml "$SVN_REPOSITORY" | grep author | perl -pe "s/.*>(.*?)<.*/\$1 = $AUTHORS_PATTERN/" | sort -u > "$AUTHORS_FILE"
+    #Fallback for no authors
+    echo "(no author) = no_author no_author@no_author" >> "$AUTHORS_FILE"
 }
 
 function checkoutGitSVN {
