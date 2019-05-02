@@ -1,4 +1,6 @@
 Unreleased
+
+1.1 (2019-05-02)
 	* Fix for (no author) (bugfix #2)
 	* Proper parameter evaluation (bugfix #1)
 
